@@ -1,0 +1,10 @@
+.no-found {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(58, 58, 58);
+  font-size: calc(10px + 3vmin);
+  color: white;
+}

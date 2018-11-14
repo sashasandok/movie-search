@@ -1,0 +1,12 @@
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-width: 100%;
+  font-family: inherit;
+  height: 78vh;
+}
+
+/* search bar */
+
+/* films bar */
