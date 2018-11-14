@@ -5,7 +5,6 @@
   min-width: 100%;
   font-family: inherit;
   min-height: 78vh;
-  overflow-y: scroll;
 }
 
 /* search bar */
@@ -26,7 +25,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  align-items: center;
+  align-items: baseline;
   flex-wrap: wrap;
   padding: 20px;
 }

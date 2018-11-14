@@ -1,24 +1,40 @@
 // react
 import React, {Component} from 'react'
-// import PropTypes from 'prop-types'
-//
+import PropTypes from 'prop-types'
+
 //redux
-// import {connect} from 'react-redux'
-// import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 
 // semantic-ui
-import {Input} from 'semantic-ui-react'
+import {
+  Input,
+  Card,
+  Image,
+} from 'semantic-ui-react'
 
 // hoc's
 import Layout from '../../HOC/Layout/Layout'
 
+// Actions
+import {getMovies} from '../../actions/movies'
+
 // styles
 import './Main.css'
+
+// image api
+import {imageUrl} from '../../api/api-movies'
 
 class Main extends Component {
   state = {}
 
+  componentDidMount() {
+    this.props.getMovies()
+  }
+
   render() {
+    const {movies} = this.props
+
     return (
       <Layout>
         <div className="main-wrapper">
@@ -26,7 +42,35 @@ class Main extends Component {
             <Input size="mini" icon="search" />
           </section>
           <section className="movie-block">
-            Film Cards
+            <Card.Group itemsPerRow={3}>
+              {movies.map(item => {
+                return (
+                  <Card
+                    centered={true}
+                    key={item.id}
+                    style={{minHeight: 400}}>
+                    <Image
+                      src={imageUrl(item.url)}
+                      color="teal"
+                    />
+
+                    <Card.Content>
+                      <Card.Header>
+                        {item.title}
+                      </Card.Header>
+                      <Card.Meta>
+                        <span className="date">
+                          {item.releaseDate}
+                        </span>
+                      </Card.Meta>
+                      <Card.Description>
+                        {item.overview}
+                      </Card.Description>
+                    </Card.Content>
+                  </Card>
+                )
+              })}
+            </Card.Group>
           </section>
         </div>
       </Layout>
@@ -34,26 +78,24 @@ class Main extends Component {
   }
 }
 
-Main.propTypes = {}
+const mapStateToProps = state => ({
+  movies: state.movies.items,
+})
 
-export default Main
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      getMovies,
+    },
+    dispatch
+  )
 
-// <Card>
-//   <Image src="https://react.semantic-ui.com/images/avatar/large/matthew.png" />
-//   <Card.Content>
-//     <Card.Header>Matthew</Card.Header>
-//     <Card.Meta>
-//       <span className="date">
-//         Joined in 2015
-//       </span>
-//     </Card.Meta>
-//     <Card.Description>
-//       Matthew is a musician living in
-//       Nashville.
-//     </Card.Description>
-//   </Card.Content>
-//   <Card.Content extra>
-//     <Icon name="user" />
-//     22 Friends
-//   </Card.Content>
-// </Card>
+Main.propTypes = {
+  getMovies: PropTypes.func.isRequired,
+  movies: PropTypes.instanceOf(Array),
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main)
