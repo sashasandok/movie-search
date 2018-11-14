@@ -7,7 +7,7 @@ import React, {Component} from 'react'
 // import {bindActionCreators} from 'redux'
 
 // semantic-ui
-// import {} from 'semantic-ui-react'
+import {Input} from 'semantic-ui-react'
 
 // hoc's
 import Layout from '../../HOC/Layout/Layout'
@@ -22,8 +22,12 @@ class Main extends Component {
     return (
       <Layout>
         <div className="main-wrapper">
-          <section>Search Bar</section>
-          <section>Films Bar</section>
+          <section className="search-block">
+            <Input size="mini" icon="search" />
+          </section>
+          <section className="movie-block">
+            Film Cards
+          </section>
         </div>
       </Layout>
     )
@@ -33,3 +37,23 @@ class Main extends Component {
 Main.propTypes = {}
 
 export default Main
+
+// <Card>
+//   <Image src="https://react.semantic-ui.com/images/avatar/large/matthew.png" />
+//   <Card.Content>
+//     <Card.Header>Matthew</Card.Header>
+//     <Card.Meta>
+//       <span className="date">
+//         Joined in 2015
+//       </span>
+//     </Card.Meta>
+//     <Card.Description>
+//       Matthew is a musician living in
+//       Nashville.
+//     </Card.Description>
+//   </Card.Content>
+//   <Card.Content extra>
+//     <Icon name="user" />
+//     22 Friends
+//   </Card.Content>
+// </Card>
