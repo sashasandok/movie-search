@@ -38,8 +38,6 @@ class Main extends Component {
     this.props.filterMovies(evt.target.value)
   }
 
-  onLoadMoreMovies = () => {}
-
   render() {
     const {movies, searchResult} = this.props
 
@@ -95,13 +93,6 @@ class Main extends Component {
                   )
                 })}
             </Card.Group>
-            <div>
-              <button
-                onClick={this.onLoadMoreMovies}
-                className="load-btn">
-                Load More
-              </button>
-            </div>
           </section>
         </div>
       </Layout>

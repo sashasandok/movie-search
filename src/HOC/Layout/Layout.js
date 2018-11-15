@@ -7,7 +7,7 @@ export default class Layout extends Component {
     return (
       <div className="layout">
         <header className="layout-header">
-          Movie List
+          <h1>Movie List</h1>
         </header>
         <section className="layout-content">
           {this.props.children}
