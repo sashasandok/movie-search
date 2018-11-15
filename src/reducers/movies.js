@@ -9,6 +9,7 @@ export const initialState = {
   error: '',
   items: [],
   result: '',
+  page: 1,
 }
 
 export default handleActions(
@@ -53,6 +54,30 @@ export default handleActions(
     }),
 
     [actions.movies.filter.error]: (
+      state,
+      {payload}
+    ) => ({
+      ...state,
+      isFetching: false,
+      error: payload.error,
+    }),
+
+    [actions.movies.page.request]: state => ({
+      ...state,
+      isFetching: true,
+      error: '',
+    }),
+
+    [actions.movies.page.success]: (
+      state,
+      {payload}
+    ) => ({
+      ...state,
+      isFetching: false,
+      page: payload.page,
+    }),
+
+    [actions.movies.page.error]: (
       state,
       {payload}
     ) => ({

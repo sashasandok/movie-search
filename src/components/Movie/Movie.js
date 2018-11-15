@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 
 //redux
 import {connect} from 'react-redux'
@@ -50,6 +51,15 @@ class Movie extends Component {
               </Card.Description>
             </Card.Content>
           </Card>
+        </div>
+        <div className="btn-block">
+          <Link to="/">
+            <button
+              className="load-btn"
+              onClick={this.onLoadMoreMovies}>
+              To Main Page
+            </button>
+          </Link>
         </div>
       </Layout>
     )

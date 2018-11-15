@@ -20,6 +20,11 @@ const actions = createActions({
       success: x => x,
       error: x => x,
     },
+    page: {
+      request: x => x,
+      success: x => x,
+      error: x => x,
+    },
   },
 })
 
@@ -29,9 +34,8 @@ export const getMovies = () => async dispatch => {
   dispatch(actions.movies.request())
 
   try {
-    const movies = await api.getMovies()
+    const movies = await api.apiGetMovies()
     const items = movies.results.map(mapper)
-
     dispatch(
       actions.movies.success({
         items,
@@ -54,6 +58,29 @@ export const filterMovies = value => async dispatch => {
   } catch (e) {
     dispatch(
       actions.movies.filter.error({error: e})
+    )
+    console.log(e)
+  }
+}
+
+export const loadMore = () => async (
+  dispatch,
+  getState
+) => {
+  actions.movies.page.request()
+
+  let {movies} = getState()
+  console.log(movies.page)
+
+  try {
+    dispatch(
+      actions.movies.page.success({
+        page: movies.page + 1,
+      })
+    )
+  } catch (e) {
+    dispatch(
+      actions.movies.page.error({error: e})
     )
     console.log(e)
   }

@@ -21,26 +21,40 @@ import Layout from '../../HOC/Layout/Layout'
 import {
   getMovies,
   filterMovies,
+  loadMore,
 } from '../../actions/movies'
 
 // styles
 import './Main.css'
 
-// image api
+// api
 import {imageUrl} from '../../api/api-movies'
+import api from '../../api/movies'
 
 class Main extends Component {
   componentDidMount() {
     this.props.getMovies()
   }
 
+  componentDidUpdate() {
+    api.apiGetMovies(this.props.page)
+  }
+
   onInputChange = evt => {
     this.props.filterMovies(evt.target.value)
   }
 
-  render() {
-    const {movies, searchResult} = this.props
+  onLoadMoreMovies = () => {
+    this.props.loadMore()
+  }
 
+  render() {
+    const {
+      movies,
+      searchResult,
+      page,
+    } = this.props
+    console.log(page)
     return (
       <Layout>
         <div className="main-wrapper">
@@ -93,6 +107,13 @@ class Main extends Component {
                   )
                 })}
             </Card.Group>
+            <div>
+              <button
+                className="load-btn"
+                onClick={this.onLoadMoreMovies}>
+                Load More
+              </button>
+            </div>
           </section>
         </div>
       </Layout>
@@ -104,6 +125,7 @@ const mapStateToProps = state => {
   return {
     movies: state.movies.items,
     searchResult: state.movies.result,
+    page: state.movies.page,
   }
 }
 
@@ -112,6 +134,7 @@ const mapDispatchToProps = dispatch =>
     {
       getMovies,
       filterMovies,
+      loadMore,
     },
     dispatch
   )
@@ -119,8 +142,10 @@ const mapDispatchToProps = dispatch =>
 Main.propTypes = {
   getMovies: PropTypes.func.isRequired,
   filterMovies: PropTypes.func.isRequired,
+  loadMore: PropTypes.func.isRequired,
   movies: PropTypes.instanceOf(Array),
   searchResult: PropTypes.string.isRequired,
+  page: PropTypes.number || null,
 }
 
 export default connect(
