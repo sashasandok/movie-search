@@ -1,6 +1,7 @@
 // react
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 
 //redux
 import {connect} from 'react-redux'
@@ -28,14 +29,7 @@ import './Main.css'
 // image api
 import {imageUrl} from '../../api/api-movies'
 
-// lodash
-import {slice} from 'lodash'
-
 class Main extends Component {
-  state = {
-    limit: 6,
-  }
-
   componentDidMount() {
     this.props.getMovies()
   }
@@ -44,21 +38,11 @@ class Main extends Component {
     this.props.filterMovies(evt.target.value)
   }
 
-  onLoadMoreMovies = () => {
-    this.setState({
-      limit: this.state.limit + 6,
-    })
-  }
+  onLoadMoreMovies = () => {}
 
   render() {
     const {movies, searchResult} = this.props
-    console.log(searchResult)
-    const data = slice(
-      movies,
-      0,
-      this.state.limit
-    )
-    console.log(data)
+
     return (
       <Layout>
         <div className="main-wrapper">
@@ -71,7 +55,7 @@ class Main extends Component {
           </section>
           <section className="movie-block">
             <Card.Group itemsPerRow={3}>
-              {data
+              {movies
                 .filter(i => {
                   const searchStr = `${i.title}`
                   return searchStr
@@ -84,10 +68,16 @@ class Main extends Component {
                       centered={true}
                       key={item.id}
                       style={{minHeight: 400}}>
-                      <Image
-                        src={imageUrl(item.url)}
-                        color="teal"
-                      />
+                      <Link
+                        to={`/movie/${item.id}`}>
+                        <Image
+                          src={imageUrl(item.url)}
+                          color="teal"
+                          style={{
+                            cursor: 'pointer',
+                          }}
+                        />
+                      </Link>
                       <Card.Content>
                         <Card.Header>
                           {item.title}
@@ -119,10 +109,12 @@ class Main extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  movies: state.movies.items,
-  searchResult: state.movies.result,
-})
+const mapStateToProps = state => {
+  return {
+    movies: state.movies.items,
+    searchResult: state.movies.result,
+  }
+}
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
