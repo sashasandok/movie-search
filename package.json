@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "moment": "^2.22.2",
     "node-sass": "^4.9.4",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
