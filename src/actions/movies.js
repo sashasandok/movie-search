@@ -15,6 +15,11 @@ const actions = createActions({
     request: x => x,
     success: x => x,
     error: x => x,
+    filter: {
+      request: x => x,
+      success: x => x,
+      error: x => x,
+    },
   },
 })
 
@@ -34,6 +39,22 @@ export const getMovies = () => async dispatch => {
     )
   } catch (e) {
     dispatch(actions.movies.error({error: e}))
+    console.log(e)
+  }
+}
+
+export const filterMovies = value => async dispatch => {
+  dispatch(actions.movies.filter.request())
+  try {
+    dispatch(
+      actions.movies.filter.success({
+        result: value,
+      })
+    )
+  } catch (e) {
+    dispatch(
+      actions.movies.filter.error({error: e})
+    )
     console.log(e)
   }
 }
