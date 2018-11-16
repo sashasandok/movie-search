@@ -34,7 +34,7 @@ class MoviesList extends Component {
   }
 
   onLoadMoreMovies = () => {
-    this.props.getMovies()
+    this.props.getMovies(true)
   }
 
   render() {
