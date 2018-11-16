@@ -34,7 +34,7 @@ export const getMovies = () => async (dispatch, getState) => {
     const items = result.results.map(mapper)
     dispatch(
       actions.movies.success({
-        items,
+        items: [...movies.items, ...items],
         page,
       })
     )
