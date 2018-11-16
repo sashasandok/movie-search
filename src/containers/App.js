@@ -6,11 +6,11 @@ import {
 } from 'react-router-dom'
 
 // components
-import Movie from '../components/Movie/Movie'
+import MoviesDetails from '../containers/MoviesDetails/MoviesDetails'
 import NoFound from '../components/NoFound/NoFound'
 
 // containers
-import Main from '../containers/Main/Main'
+import MoviesList from '../containers/MoviesList/MoviesList'
 
 class App extends Component {
   render() {
@@ -21,12 +21,12 @@ class App extends Component {
             <Route
               exact
               path="/"
-              component={Main}
+              component={MoviesList}
             />
             <Route
               exact
               path="/movie/:id"
-              component={Movie}
+              component={MoviesDetails}
             />
             <Route component={NoFound} />
           </Switch>
