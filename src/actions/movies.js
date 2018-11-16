@@ -23,12 +23,11 @@ const actions = createActions({
 
 export default actions
 
-// export const getMovies = ({force = false}) => async (dispatch, getState) => {
 export const getMovies = (force = false) => async (dispatch, getState) => {
   const { movies } = getState()
   if (!!movies.items.length && !force) return
   console.log('movies.length/f', movies.length, force)
-  
+
   dispatch(actions.movies.request())
   try {
     const page = movies.page + 1
