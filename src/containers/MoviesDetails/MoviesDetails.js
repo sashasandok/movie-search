@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux'
 import { getMovieList, getMovieById } from '../../selectors/movies'
 
 // semantic-ui
-import { Card, Image } from 'semantic-ui-react'
+import { Card, Image, Divider } from 'semantic-ui-react'
 
 // image api
 import { imageUrl } from '../../api/api-movies'
@@ -39,9 +39,10 @@ class Movie extends Component {
             <Image src={imageUrl(movie.backdropPath)} color="teal" />
             <Card.Content>
               <Card.Header>{movie.title}</Card.Header>
-              <Card.Meta>
+              <Card.Meta as="h2">
                 <span className="date">{movie.releaseDate}</span>
               </Card.Meta>
+              <Divider />
               <Card.Description
                 style={{
                   textAlign: 'justify',
@@ -49,6 +50,9 @@ class Movie extends Component {
                 }}>
                 {movie.overview}
               </Card.Description>
+              <Divider />
+              <h3>popularity: {movie.popularity}</h3>
+              <h3>language: {movie.originalLanguage}</h3>
             </Card.Content>
           </Card>
         </div>
