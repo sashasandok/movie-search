@@ -1,91 +1,49 @@
-import React, {Component} from 'react'
+// react
+import React from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-//redux
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-
 // semantic-ui
-import {Card, Image} from 'semantic-ui-react'
+import { Card, Image } from 'semantic-ui-react'
 
-// image api
-import {imageUrl} from '../../api/api-movies'
+// api
+import { imageUrl } from '../../api/api-movies'
 
-// hoc
-import Layout from '../../HOC/Layout/Layout'
-
-// Actions
-import {getMovies} from '../../actions/movies'
-
-// styles
-import './Movie.css'
-
-class Movie extends Component {
-  componentDidMount() {
-    this.props.getMovies()
-  }
-
-  render() {
-    const {movie} = this.props
-    return (
-      <Layout>
-        <div className="movie">
-          <Card
-            style={{minHeight: 300, width: 550}}>
-            <Image
-              src={imageUrl(movie.url)}
-              color="teal"
-            />
+const movie = ({ movies, searchResult }) => (
+  <Card.Group itemsPerRow={4}>
+    {movies
+      .filter(i => {
+        const searchStr = `${i.title}`
+        return searchStr.toLowerCase().includes(searchResult)
+      })
+      .map(item => {
+        return (
+          <Card centered={true} key={item.id} style={{ minWidth: 300 }}>
+            <Link to={`/movie/${item.id}`}>
+              <Image
+                fluid
+                src={imageUrl(item.posterPath)}
+                color="teal"
+                style={{
+                  cursor: 'pointer',
+                }}
+              />
+            </Link>
             <Card.Content>
-              <Card.Header>
-                {movie.title}
-              </Card.Header>
+              <Card.Header>{item.title}</Card.Header>
               <Card.Meta>
-                <span className="date">
-                  {movie.releaseDate}
-                </span>
+                <span className="date">{item.releaseDate}</span>
               </Card.Meta>
-              <Card.Description textAlign="left">
-                {movie.overview}
-              </Card.Description>
             </Card.Content>
           </Card>
-        </div>
-      </Layout>
-    )
-  }
-}
+        )
+      })}
+  </Card.Group>
+)
 
-Movie.propTypes = {
-  movie: PropTypes.instanceOf(Object),
-}
-
-const mapStateToProps = (state, props) => {
-  const movieId = +props.match.params.id
-  return {
-    movies: state.movies.items,
-    movie:
-      state.movies.items.find(
-        i => i.id === movieId
-      ) || {},
-  }
-}
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      getMovies,
-    },
-    dispatch
-  )
-
-Movie.propTypes = {
-  getMovies: PropTypes.func.isRequired,
+movie.propTypes = {
   movies: PropTypes.instanceOf(Array),
-  movie: PropTypes.instanceOf(Object),
+  searchResult: PropTypes.string.isRequired,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Movie)
+export default movie

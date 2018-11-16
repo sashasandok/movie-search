@@ -2,7 +2,7 @@
 import 'babel-polyfill'
 
 // redux
-import {createActions} from 'redux-actions'
+import { createActions } from 'redux-actions'
 
 // mappers
 import mapper from '../mappers/movies'
@@ -16,45 +16,38 @@ const actions = createActions({
     success: x => x,
     error: x => x,
     filter: {
-      request: x => x,
       success: x => x,
-      error: x => x,
     },
   },
 })
 
 export default actions
 
-export const getMovies = () => async dispatch => {
+export const getMovies = () => async (dispatch, getState) => {
   dispatch(actions.movies.request())
 
   try {
-    const movies = await api.getMovies()
-    const items = movies.results.map(mapper)
+    const { movies } = getState()
+    const page = movies.page + 1
 
+    const result = await api.apiGetMovies(page)
+    const items = result.results.map(mapper)
     dispatch(
       actions.movies.success({
-        items,
+        items: [...movies.items, ...items],
+        page,
       })
     )
   } catch (e) {
-    dispatch(actions.movies.error({error: e}))
+    dispatch(actions.movies.error({ error: e }))
     console.log(e)
   }
 }
 
 export const filterMovies = value => async dispatch => {
-  dispatch(actions.movies.filter.request())
-  try {
-    dispatch(
-      actions.movies.filter.success({
-        result: value,
-      })
-    )
-  } catch (e) {
-    dispatch(
-      actions.movies.filter.error({error: e})
-    )
-    console.log(e)
-  }
+  dispatch(
+    actions.movies.filter.success({
+      result: value,
+    })
+  )
 }
